@@ -1,2 +1,2 @@
 # Bandersnatch
-A collaborative text editor 
+A collaborative text editor (In progress)
