@@ -1,0 +1,63 @@
+<html>
+<title>ok</title>
+<head>
+
+  <label>Theme</label>
+  <select id = "th" onchange = "changeTheme();">
+    <option value = "1"> yonce </option>
+    <option value = "2"> dracula </option>
+    <option value = "3"> zenburn </option>
+    <option value = "4"> seti </option>
+    <option value = "5"> the-matrix </option>
+    <option value = "6"> neo </option>
+  </select>
+
+  <link id ='theme' href="https://cdn.jsdelivr.net/npm/codemirror@5.57.0/theme/yonce.css" rel = "stylesheet"/>
+</head>
+<body>
+  <h3>Write Your Code Here</h3>
+  <textarea id="txt"></textarea>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.57.0/lib/codemirror.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.57.0/mode/xml/xml.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.57.0/addon/edit/closetag.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.57.0/lib/codemirror.css">
+<script src ="/socket.io/socket.io.js"></script>
+<script>
+
+  let socket;
+
+  function f() {
+    socket = io.connect();
+  }
+  f();
+
+  let editor = CodeMirror.fromTextArea(document.getElementById('txt'),{
+    mode : 'xml',
+    theme : 'yonce',
+    lineNumbers : true,
+    autoCloseTags : true,
+  });
+
+  CodeMirror.on(editor, "change", (instance, change) => {
+      socket.emit('send message', change['text'], change['removed'], change['from']);
+  });
+
+  editor.setSize('1000','500');
+
+  function changeTheme() {
+    let selectedOption = document.getElementById("th");
+    //console.log(selectedOption);
+    let theme = selectedOption.options[selectedOption.selectedIndex].text;
+    let path = "https://cdn.jsdelivr.net/npm/codemirror@5.57.0/theme/";
+    path = path.concat(theme,".css");
+    document.getElementById('theme').href = path;
+    editor.setOption('theme', theme);
+  }
+
+  let ch = 0;
+  socket.on('new message', data => {
+    console.log(data);
+  });
+</script>
+</html>
