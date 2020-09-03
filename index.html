@@ -38,12 +38,9 @@
     lineNumbers : true,
     autoCloseTags : true,
   });
-  let id = [0,0];
+
   CodeMirror.on(editor, "change", (instance, change) => {
       socket.emit('send message', change['text'], change['removed'], change['from']);
-      if(change['txt'] === ["", ""])
-        id[0]+=1;
-      id[1]+=1;
   });
 
   editor.setSize('1000','500');
@@ -61,12 +58,6 @@
   let ch = 0;
   socket.on('new message', data => {
     console.log(data);
-    //editor.off("change", (editor, change) => console.log('Turned off event'));
-    if(data['index']['line']<id[0])
-        editor.replaceRange("\n", {'line' : id[0] , 'ch': id[1]});
-    else if(data['index']['line']>=id[0] && data['index']['ch']>=id[1])
-    editor.replaceRange(data['msg'][0],{'line' : data['index']['line'] , 'ch': data['index']['ch']});
-    //editor.off("change", (editor, change) => console.log('Turned off event'));
   });
 </script>
 </html>
