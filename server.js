@@ -58,7 +58,7 @@ io.on('connection', socket => {
     console.log(rooms);
   })
 
-  socket.on('send message', (data, removed, index, room) => {
-    socket.broadcast.to(room).emit('new message', {msg:data, removed: removed, index: index});
+  socket.on('send message', (inserted, deleted, index, room) => {
+    socket.broadcast.to(room).emit('new message', {insert:inserted, delete: deleted, index: index});
   })
 })
