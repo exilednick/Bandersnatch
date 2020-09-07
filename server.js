@@ -36,8 +36,15 @@ io.on('connection', socket => {
       rooms[room] = [{'id': socket.id, 'name': params['name']}] ;
     }
 
-    io.in(room).emit('userJoined', rooms[room]);
+    io.in(room).emit('userJoined', rooms[room]); //send list of all users
 
+    if(rooms[room].length>1) {
+      io.to(rooms[room][0]['id']).emit('send_data'); //take data from the first member
+    }
+
+    socket.on('get_data', data => {
+      io.to(rooms[room][rooms[room].length -1]['id']).emit('take_data', data);
+    }) //send data to the new user
     console.log(rooms);
   })
 
@@ -53,7 +60,7 @@ io.on('connection', socket => {
             break;
           }
     }
-    io.in(roomName).emit('userJoined', rooms[roomName]);
+    io.in(roomName).emit('userJoined', rooms[roomName]); //send list of all users
     console.log("Disconnected : %s sockets connected", connections.length);
     console.log(rooms);
   })

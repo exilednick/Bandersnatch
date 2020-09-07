@@ -4,19 +4,23 @@
 
 </head>
 <body>
-  <h3>Write Your Code Here</h3>
   <div id="editor" style = "height: 400px"></div>
   <br></br>
   <label>Users Joined</label>
   <ul id = "listOfUsers"></ul>
+
   <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
   <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
 </body>
 <script src ="/socket.io/socket.io.js"></script>
 <script>
 
   let editor = new Quill("#editor",{
-    theme : "snow"
+    theme : "snow",
+    modules: {
+       toolbar : false
+     }
   });
 
   let getParams = function (url) {
@@ -40,7 +44,7 @@
 
       if(source =='api')
         return;
-        
+
       let index, inserted, deleted;
 
       if(delta['ops'].length == 1){
@@ -56,16 +60,6 @@
       socket.emit('send message', inserted, deleted, index ,params['id']);
   });
 
-
-/*  function changeTheme() {
-    let selectedOption = document.getElementById("th");
-    let theme = selectedOption.options[selectedOption.selectedIndex].text;
-    let path = "https://cdn.jsdelivr.net/npm/codemirror@5.57.0/theme/";
-    path = path.concat(theme,".css");
-    document.getElementById('theme').href = path;
-    editor.setOption('theme', theme);
-  }
-*/
   socket.on('new message', data => {
     if(data['delete']==null)
       editor.insertText(data['index'], data['insert']);
@@ -83,5 +77,8 @@
         document.getElementById('listOfUsers').appendChild(node);
       }
   })
+
+  socket.on('send_data', () => socket.emit('get_data', editor.getText(0,editor.getLength())));
+  socket.on('take_data', data => editor.setText(data));
 </script>
 </html>
