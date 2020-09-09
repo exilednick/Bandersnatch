@@ -1,1 +1,1 @@
-web: node run server
+web: node server
