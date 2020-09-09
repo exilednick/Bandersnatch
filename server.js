@@ -4,22 +4,18 @@ const PORT = process.env.PORT || 3000;
 let server = require('http').createServer(app);
 let io = require('socket.io').listen(server);
 
-const subsRouter = require('./routes/subs')
+const indexRouter = require('./routes/index')
 
 app.set('views',__dirname+'/views');
 app.set('view engine', 'ejs')
 app.use(express.static('public'));
-app.use('/subs', subsRouter);
-
+app.use('https://colab-editor.herokuapp.com/', indexRouter);
+app.use('/', indexRouter);
 connections = [];
 rooms={};
 
 server.listen(PORT);
 console.log('Server running');
-
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/index.html');
-})
 
 io.on('connection', socket => {
   connections.push(socket.id);
