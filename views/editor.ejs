@@ -1,47 +1,43 @@
 <html>
-<title>ok</title>
+<title>Editor</title>
 <head>
-
 </head>
 <body>
   <div id="editor" style = "height: 400px"></div>
   <br></br>
   <label>Users Joined</label>
-  <ul id = "listOfUsers"></ul>
-
+  <p id = "listOfUsers"></p>
   <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
   <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-
 </body>
 <script src ="/socket.io/socket.io.js"></script>
 <script>
-
   let editor = new Quill("#editor",{
     theme : "snow",
     modules: {
-       toolbar : false
+       toolbar : false,
      }
   });
 
   let getParams = function (url) {
-	let params = {};
-	let parser = document.createElement('a');
-	parser.href = url;
-	let query = parser.search.substring(1);
-	let vars = query.split('&');
-	for (let i = 0; i < vars.length; i++) {
-		let pair = vars[i].split('=');
-		params[pair[0]] = decodeURIComponent(pair[1]);
-	}
-	return params;
-};
+  	let params = {};
+  	let parser = document.createElement('a');
+  	parser.href = url;
+  	let query = parser.search.substring(1);
+  	let vars = query.split('&');
+  	for (let i = 0; i < vars.length; i++) {
+  		let pair = vars[i].split('=');
+  		params[pair[0]] = decodeURIComponent(pair[1]);
+  	}
+  	return params;
+  };
 
-  let params =getParams(window.location.href);
+  let params = getParams(window.location.href);
 
   let socket = io.connect();
   socket.emit('join', params);
-  editor.on("text-change", (delta,oldDelta,source) => {
 
+  editor.on("text-change", (delta,oldDelta,source) => {
       if(source =='api')
         return;
 
@@ -66,18 +62,10 @@
     else
       editor.deleteText(data['index'],data['delete']);
   })
-
   socket.on('userJoined', nameOfUsers => {
-      document.getElementById('listOfUsers').textContent='';
-
-      for(let i = 0; i<nameOfUsers.length; i++) {
-        let node = document.createElement("LI");
-        let user = document.createTextNode(nameOfUsers[i]['name']);
-        node.appendChild(user);
-        document.getElementById('listOfUsers').appendChild(node);
-      }
+      document.getElementById('listOfUsers').innerHTML = '';
+      nameOfUsers.forEach(val => document.getElementById('listOfUsers').innerHTML+= `<li>${val['name']}</li>`);
   })
-
   socket.on('send_data', () => socket.emit('get_data', editor.getText(0,editor.getLength())));
   socket.on('take_data', data => editor.setText(data));
 </script>
