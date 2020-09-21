@@ -13,7 +13,15 @@ app.use('https://colab-editor.herokuapp.com/', indexRouter);
 app.use('/', indexRouter);
 connections = [];
 rooms={};
-
+app.get('/join', (req,res) => {
+  let roomName = req.query['id'];
+  if(roomName in rooms) {
+    res.send("Room already exists");
+  }
+  else {
+    res.render('editor');
+  }
+});
 server.listen(PORT);
 console.log('Server running');
 
@@ -56,6 +64,8 @@ io.on('connection', socket => {
             break;
           }
     }
+    if(rooms[roomName].length == 0)
+      delete rooms[roomName];
     io.in(roomName).emit('userJoined', rooms[roomName]); //send list of all users
     console.log("Disconnected : %s sockets connected", connections.length);
     console.log(rooms);

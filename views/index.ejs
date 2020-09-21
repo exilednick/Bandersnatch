@@ -26,24 +26,8 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item ">
-                    <a class="nav-link" href="#">Chat </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="#">Video Call </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="#">Meetings</a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="#">Contacts</a>
-                </li>
-            </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="nav-item"><a class="nav-link" href="princing.html"> Pricing </a></li>
-                <li class="nav-item"><a class="nav-link" href="settings.html"> Settings </a></li>
-                <li class="nav-item"><a class="nav-link" href="terms.html"> Terms & Conditions </a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/exilednick/Bandersnatch"> Fork on Github </a></li>
             </ul>
         </div>
     </nav>
@@ -57,9 +41,9 @@
     <div class="container">
         <div class="row">
             <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-                <button type="button" onclick="location.href = 'views/editor.ejs';" class="btn btn-warning"> Click here start a new Coding Room </button>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target='#CreateRoom'> Click here start a new Coding Room </button>
                 <br><br><br>
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Click here
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#JoinRoom">Click here
                     join an existing Coding Room</button><br><br><br>
             </div>
             <div class="col-12 col-sm-12 col-md-6 col-lg-8 col-xl-8">
@@ -68,41 +52,73 @@
         </div>
     </div>
 
-
-    </div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">JOIN TO CODE</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="subs/meeting-room" method = "GET">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Room ID</label>
-                                <input type="text" name ="id" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp" placeholder="Enter Room Name" >
-                                <small id="emailHelp" class="form-text text-muted">Losing the room id will lead to loss
-                                    of the code</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail2">Name</label>
-                                <input type="text" name="name" class="form-control" id="exampleInputEmail2"
-                                    aria-describedby="emailHelp" placeholder="Enter Name">
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Join</button>
-                    </div>
-                    </form>
+    <div class="modal fade" id="JoinRoom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">JOIN TO CODE</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
+                <div class="modal-body">
+                    <form action="subs/meeting-room" method = "GET">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Room ID</label>
+                            <input type="text" name ="id" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Enter Room Name" >
+                            <small id="emailHelp" class="form-text text-muted">Losing the room id will lead to loss
+                                of the code</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail2">Name</label>
+                            <input type="text" name="name" class="form-control" id="exampleInputEmail2"
+                                aria-describedby="emailHelp" placeholder="Enter Name">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Join</button>
+                </div>
+                </form>
             </div>
         </div>
+    </div>
+
+    <div class="modal fade" id="CreateRoom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">JOIN TO CODE</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="join/" method = "GET">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Room ID</label>
+                            <input type="text" name ="id" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Enter Room Name" >
+                            <small id="emailHelp" class="form-text text-muted">Losing the room id will lead to loss
+                                of the code</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail2">Name</label>
+                            <input type="text" name="name" class="form-control" id="exampleInputEmail2"
+                                aria-describedby="emailHelp" placeholder="Enter Name">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Join</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 
 </body>
