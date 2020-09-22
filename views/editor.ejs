@@ -14,6 +14,9 @@
 <script>
   let editor = new Quill("#editor",{
     theme : "snow",
+    modules: {
+      toolbar: true
+    }
   });
 
   let getParams = function (url) {
