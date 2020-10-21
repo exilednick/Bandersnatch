@@ -36,6 +36,10 @@
 
   let socket = io.connect();
   socket.emit('join', params);
+  let myId;
+  socket.on('getId', data => {
+    myId = data;
+  });
 
   editor.on("text-change", (delta,oldDelta,source) => {
       if(source =='api')
@@ -53,6 +57,7 @@
         inserted = delta['ops'][1]['insert'];
         deleted = delta['ops'][1]['delete'];
       }
+
       socket.emit('send message', inserted, deleted, index ,params['id']);
   });
 

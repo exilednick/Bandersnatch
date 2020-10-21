@@ -24,14 +24,17 @@ app.get('/join', (req,res) => {
 });
 server.listen(PORT);
 console.log('Server running');
+let cnt = 0;
 
 io.on('connection', socket => {
+  cnt+=1;
   connections.push(socket.id);
   console.log("Connected : %s sockets connected", connections.length);
 
   socket.on('join', params => {
     room = params['id'];
     socket.join(room);
+    socket.emit('getId', cnt);
 
     if(room in rooms) {
       rooms[room].push({'id': socket.id, 'name': params['name']});
